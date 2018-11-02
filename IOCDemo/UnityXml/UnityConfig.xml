@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+      <section name="unity" type="Microsoft.Practices.Unity.Configuration.UnityConfigurationSection,Unity.Configuration"/>
+  </configSections>
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <containers>
+      <container name="unityContainer">
+        <!--type,mapTo:逗号左边是类的完全限定名,即命名空间+类名;逗号右边是程序集名称-->
+        <register type="IOCDemo.IPhone,IOCDemo" mapTo="IOCDemo.IOSPhone2,IOCDemo"></register>
+      </container>
+    </containers>
+  </unity>
+</configuration>
