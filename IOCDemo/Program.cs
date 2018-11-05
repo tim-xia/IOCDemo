@@ -56,6 +56,29 @@ namespace IOCDemo
             IPhone xmlPhone = container.Resolve<IPhone>();
             var callSomebody4 = new CallSomebody2() {Phone = xmlPhone};
             callSomebody4.Call();
+
+            /*4.5 Unity 配置文件版 增加多配置
+             * 配置文件修改，增加name标记
+             */
+            ExeConfigurationFileMap fileMap1 = new ExeConfigurationFileMap
+            {
+                ExeConfigFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"UnityXml\UnityConfig.xml")
+            };
+            Configuration configuration1 = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+            UnityConfigurationSection section1 = (UnityConfigurationSection)configuration.GetSection(UnityConfigurationSection.SectionName);
+            IUnityContainer xmlContainer1 = new UnityContainer();
+            section.Configure(container, "unityContainer");
+            IPhone xmlPhone1 = container.Resolve<IPhone>("Apple");
+            IPhone xmlIOS1 = container.Resolve<IPhone>("Android");
+            var callSomebody4_5 = new CallSomebody2() { Phone = xmlPhone1 };
+            var callSomebody4_6 = new CallSomebody2() { Phone = xmlIOS1};
+            callSomebody4_5.Call();
+            callSomebody4_6.Call();
+
+            /*
+             *
+             */
+
             Console.ReadLine();
 
         }

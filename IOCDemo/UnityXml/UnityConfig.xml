@@ -8,6 +8,8 @@
       <container name="unityContainer">
         <!--type,mapTo:逗号左边是类的完全限定名,即命名空间+类名;逗号右边是程序集名称-->
         <register type="IOCDemo.IPhone,IOCDemo" mapTo="IOCDemo.IOSPhone2,IOCDemo"></register>
+        <register type="IOCDemo.IPhone,IOCDemo" mapTo="IOCDemo.IOSPhone2,IOCDemo" name="Apple"></register>
+        <register type="IOCDemo.IPhone,IOCDemo" mapTo="IOCDemo.AndroidPhone2,IOCDemo" name="Android"></register>
       </container>
     </containers>
   </unity>
