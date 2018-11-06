@@ -88,7 +88,7 @@ namespace IOCDemo
             UnityConfigurationSection section2 = (UnityConfigurationSection)configuration2.GetSection(UnityConfigurationSection.SectionName);
             IUnityContainer xmlContainer2 = new UnityContainer();
             section2.Configure(xmlContainer2, "unityContainer");
-            var callSomebody5 = xmlContainer2.Resolve<ICallSomebody>() as CallSomebody5;
+            var callSomebody5 = xmlContainer2.Resolve<CallSomebody5>();
             callSomebody5?.Call();
             Console.ReadLine();
 
