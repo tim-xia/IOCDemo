@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Practices.Unity.Configuration;
 using Unity;
+using Unity.Attributes;
 
 namespace IOCDemo
 {
@@ -34,7 +36,7 @@ namespace IOCDemo
             callSomebody2.Call();
 
             /*3.0 Unity版
-             *
+             *Unity使用入门
              */
             IUnityContainer container = new UnityContainer();
             container.RegisterType<IPhone, AndroidPhone2>();
@@ -52,8 +54,8 @@ namespace IOCDemo
             Configuration configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
             UnityConfigurationSection section = (UnityConfigurationSection)configuration.GetSection(UnityConfigurationSection.SectionName);
             IUnityContainer xmlContainer = new UnityContainer();
-            section.Configure(container, "unityContainer");
-            IPhone xmlPhone = container.Resolve<IPhone>();
+            section.Configure(xmlContainer, "unityContainer");
+            IPhone xmlPhone = xmlContainer.Resolve<IPhone>();
             var callSomebody4 = new CallSomebody2() {Phone = xmlPhone};
             callSomebody4.Call();
 
@@ -65,20 +67,29 @@ namespace IOCDemo
                 ExeConfigFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"UnityXml\UnityConfig.xml")
             };
             Configuration configuration1 = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-            UnityConfigurationSection section1 = (UnityConfigurationSection)configuration.GetSection(UnityConfigurationSection.SectionName);
+            UnityConfigurationSection section1 = (UnityConfigurationSection)configuration1.GetSection(UnityConfigurationSection.SectionName);
             IUnityContainer xmlContainer1 = new UnityContainer();
-            section.Configure(container, "unityContainer");
-            IPhone xmlPhone1 = container.Resolve<IPhone>("Apple");
-            IPhone xmlIOS1 = container.Resolve<IPhone>("Android");
-            var callSomebody4_5 = new CallSomebody2() { Phone = xmlPhone1 };
-            var callSomebody4_6 = new CallSomebody2() { Phone = xmlIOS1};
+            section1.Configure(xmlContainer1, "unityContainer");
+            IPhone xmlPhone2 = xmlContainer1.Resolve<IPhone>("Apple");
+            IPhone xmlIOS2 = xmlContainer1.Resolve<IPhone>("Android");
+            var callSomebody4_5 = new CallSomebody2() { Phone = xmlPhone2 };
+            var callSomebody4_6 = new CallSomebody2() { Phone = xmlIOS2};
             callSomebody4_5.Call();
             callSomebody4_6.Call();
 
-            /*
-             *
+            /*5.0 Unity使用注入
+             *自动生成
              */
-
+            ExeConfigurationFileMap fileMap2 = new ExeConfigurationFileMap
+            {
+                ExeConfigFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"UnityXml\UnityConfig.xml")
+            };
+            Configuration configuration2 = ConfigurationManager.OpenMappedExeConfiguration(fileMap2, ConfigurationUserLevel.None);
+            UnityConfigurationSection section2 = (UnityConfigurationSection)configuration2.GetSection(UnityConfigurationSection.SectionName);
+            IUnityContainer xmlContainer2 = new UnityContainer();
+            section2.Configure(xmlContainer2, "unityContainer");
+            var callSomebody5 = xmlContainer2.Resolve<ICallSomebody>() as CallSomebody5;
+            callSomebody5?.Call();
             Console.ReadLine();
 
         }
